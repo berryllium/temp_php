@@ -14,7 +14,6 @@
 <body>
 	<div id="content">
 		<?= $header ?>
-		
 		<ul id="menu">
 			<li><a href="#">home</a></li>
 			<li><a href="#">archive</a></li>
