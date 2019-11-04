@@ -171,7 +171,7 @@ function getTime()
 
   if (($m1 == 0) || ($m1 > 1)) {
     if ($m2 == 1) $m_end = 'а';
-    elseif (($h2 > 0) && ($m2 <= 4)) $m_end = 'ы';
+    elseif (($m2 > 0) && ($m2 <= 4)) $m_end = 'ы';
   }
 
   return "$h час$h_end $m минут$m_end";
