@@ -2,6 +2,18 @@
 	$title = '<title>minimalistica</title>';
 	$header = '<h1>minimalistica</h1>';
 	$year = date('Y');
+
+	function getMenu ($list) {
+		$menu = '';
+		foreach ($list as $item => $value) {
+			if (is_array($value)) $value = $item.'  &#9660;<ul>'.getMenu($value).'</ul>';
+			$menu.= "<li>$value</li>";
+		}
+		return $menu;
+	}
+	
+	$menu = ['home', 'archive' => ['1990-2000', '2000-2010', '2010-2019'], 'contact' => ['phone', 'email', 'address' => ['city', 'country']]];
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -14,10 +26,9 @@
 <body>
 	<div id="content">
 		<?= $header ?>
+		
 		<ul id="menu">
-			<li><a href="#">home</a></li>
-			<li><a href="#">archive</a></li>
-			<li><a href="#">contact</a></li>
+			<?= getMenu($menu); ?>
 		</ul>
 	
 		<div class="post">
