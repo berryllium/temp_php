@@ -21,14 +21,31 @@
             <?php
                 $query = 'SELECT * FROM images';
                 $result = mysqli_query($connection, $query);
-                while ($row = mysqli_fetch_assoc($result)) : ?>
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $arr_photo[] = [
+                        'id' => $row['id'],
+                        'title' => $row['title'],
+                        'path_big' => $row['path_big'],
+                        'path_small' => $row['path_small'],
+                        'rating' => $row['rating']
+                    ];
+                }
+                // сортировка по количеству просмотров
+                usort($arr_photo,  function ($a, $b) {
+                    if ($a['rating'] == $b['rating']) {
+                        return 0;
+                    }
+                    return ($a['rating'] < $b['rating']) ? -1 : 1;
+                });
+
+                foreach ($arr_photo as $key=>$img) : ?>
                 <div class="item">
-                    <a class="example-image-link" href="index.php?id=<?= $row['id'] ?>" data-lightbox="example-set">
-                        <img class="example-image" src="<?= $row['path_small'] ?>" alt="<?= $row['title'] ?>" />
+                    <a class="example-image-link" href="index.php?id=<?= $img['id'] ?>" data-lightbox="example-set">
+                        <img class="example-image" src="<?= $img['path_small'] ?>" alt="<?= $img['title'] ?>" />
                     </a>
-                    <div class="view">Просмотров: <?= $row['rating'] ?></div>
+                    <div class="view">Просмотров: <?= $img['rating'] ?></div>
                 </div>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
         </div>
         <div class="form">
             <form action="engine/get_photo.php" method="POST" enctype="multipart/form-data">
