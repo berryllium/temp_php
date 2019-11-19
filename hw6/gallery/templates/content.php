@@ -1,28 +1,72 @@
 <main>
 
-    <?php require_once 'engine/connection.php';
+    <?php
+    require_once 'engine/connection.php';
+
+    // вывод одиночного изображения и увеличение рейтинга
     if (isset($_GET['id'])) :
         $id = $_GET['id'];
         $query1 = "UPDATE `images` SET `rating` = `rating`+1 WHERE `images`.`id` = $id";
         $query2 = "SELECT * FROM images WHERE id=$id";
         $result = mysqli_query($connection, $query1);
         $result = mysqli_query($connection, $query2);
-        while ($row = mysqli_fetch_assoc($result)) : ?>
+        $cur_img = mysqli_fetch_assoc($result);
 
-            <div class="single">
-                <div class="text">
-                    <h1><?= $row['title'] ?></h1>
-                    <h2 class="rating">Количество просмотров: <span><?= $row['rating'] ?></span></h2>
-                </div>
-                <img width="100%" class="single-image" src="<?= $row['path_big'] ?>" alt="<?= $row['title'] ?>" />
+
+        // вывод комментариев или добавление нового
+        if (isset($_POST['comment'])) {
+            $name = $_POST['comment_name'];
+            $text = $_POST['comment_text'];
+            $query = "INSERT INTO `comments` (`image_id`, `name`, `text`) VALUES ('$id', '$name', '$text');";
+            $result = mysqli_query($connection, $query);
+        }
+
+        $query = "SELECT * FROM `comments` WHERE `image_id` = '$id'";
+        $result = mysqli_query($connection, $query);
+        while ($row = mysqli_fetch_assoc($result)) {
+            $comments[] = [
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'text' => $row['text'],
+                'date' => $row['date']
+            ];
+        }
+        ?>
+
+
+
+        <div class="single">
+            <div class="text">
+                <h1><?= $cur_img['title'] ?></h1>
+                <h2 class="rating">Количество просмотров: <span><?= $cur_img['rating'] ?></span></h2>
             </div>
+            <img height="70%" class="single-image" src="<?= $cur_img['path_big'] ?>" alt="<?= $cur_img['title'] ?>" />
+        </div>
 
-<!-- А здесь мы выводим блок с комментариями -->
+        <!-- А здесь мы выводим блок с комментариями -->
+        <h3>Комментарии пользователей</h3>
+        <form method="POST" id="comments">
+            <label for="comment_name">Ваше имя</label><br><input type="text" name="comment_name" required><br>
+            <label for="comment_text">Ваш комментарий</label><br><textarea name="comment_text"></textarea><br>
+            <input type="submit" name="comment">
+        </form>
 
+        <div class="comments">
+            <?php if ($comments) : foreach ($comments as $key => $value) : ?>
 
+                    <h4><?= $value['name']; ?></h4>
+                    <div class="time"><?= $value['date'] ?></div>
+                    <div class="comment-text">
+                        <?= $value['text']; ?>
+                    </div>
 
-        <?php endwhile;
-        else : ?>
+            <?php endforeach;
+                endif; ?>
+        </div>
+
+<!-- А здесь выводим всю галерею, если не выбрано конкретное изображение -->
+    <?php else : ?>
+
         <div class="gallery">
             <?php
                 $query = 'SELECT * FROM images';
@@ -44,7 +88,7 @@
                     return ($a['rating'] < $b['rating']) ? -1 : 1;
                 });
 
-                foreach ($arr_photo as $key=>$img) : ?>
+                foreach ($arr_photo as $key => $img) : ?>
                 <div class="item">
                     <a class="example-image-link" href="index.php?id=<?= $img['id'] ?>" data-lightbox="example-set">
                         <img class="example-image" src="<?= $img['path_small'] ?>" alt="<?= $img['title'] ?>" />
