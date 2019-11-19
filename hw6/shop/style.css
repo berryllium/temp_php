@@ -196,7 +196,7 @@ body {
 
 /* СТИЛИ СТРАНИЦЫ КАТАЛОГОВ */
 
-.container-catalog .content .catalog-product {
+.content .catalog-product {
     width: 350px;
     float: left;
     margin: 10px;
@@ -206,15 +206,15 @@ body {
     text-align: center;
 }
 
-.container-catalog .content .catalog-product:hover {
+.content .catalog-product:hover {
     outline: none;
 }
 
-.container-catalog .content .catalog-product img {
+.content .catalog-product img {
     width: 350px;
 }
 
-.container-catalog .content .catalog-product a {
+.content .catalog-product a {
     text-decoration: none;
     color: coral;
     font-weight: bold;

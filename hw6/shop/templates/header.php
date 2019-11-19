@@ -10,8 +10,8 @@
     <div class="container container-main">
         <div class="header"> <a href="index.html" class="logo">Пегий дудочник</a>
             <ul class="menu">
-                <li><a href="#">Главная</a></li>
-                <li><a href="catalog.html">Каталог</a></li>
-                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="?page=home">Главная</a></li>
+                <li><a href="?page=catalog">Каталог</a></li>
+                <li><a href="?page=contacts">Контакты</a></li>
             </ul>
         </div>
