@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Пегий дудочник</title>
-    <link rel="stylesheet" href="style.css"> </head>
+    <link rel="stylesheet" href="style.css">
+</head>
 
 <body>
     <div class="container container-main">
@@ -13,5 +14,10 @@
                 <li><a href="?page=home">Главная</a></li>
                 <li><a href="?page=catalog">Каталог</a></li>
                 <li><a href="?page=contacts">Контакты</a></li>
+                <?php if ($_SESSION['admin']) : ?>
+                    <li><a href="index.php?exit=true">Выход</a></li>
+                <?php else : ?>
+                    <li><a href="index.php?page=login">Вход</a></li>
+                <?php endif; ?>
             </ul>
         </div>

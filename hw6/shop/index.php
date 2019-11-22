@@ -1,7 +1,8 @@
 <?php
+session_start();
+if ($_GET['exit']) session_destroy();
 require_once('templates/header.php');
 require_once('engine/functions.php');
-
 if ($_GET['page'] == 'contacts') require_once('templates/contacts.php');
 
 elseif ($_GET['page'] == 'catalog') {
@@ -10,6 +11,8 @@ elseif ($_GET['page'] == 'catalog') {
   require_once('templates/catalog.php');
 } elseif ($_GET['page'] == 'admin') {
   require_once('templates/admin.php');
+} elseif ($_GET['page'] == 'login') {
+  require_once('templates/login.php');
 } elseif ($_GET['page'] == 'product') {
   $query = "SELECT * FROM `products` WHERE `id` = '" . $_GET['id'] . "'";
   extract(query($connection, $query)[0]);

@@ -51,13 +51,13 @@ function query($connection, $query)
 
 function addProduct($connection, $product)
 {
-    print_r($product);
     extract($product);
     $query = "INSERT INTO `products` (`title`, `category`, `short_desc`, `full_desc`, `price`, `complect`, `path_big`, `path_small`) VALUES ('$title', '$category', '$short_desc', '$full_desc', '$price', '$complect', '$path_big', '$path_small');";
     $query = (string) htmlspecialchars(strip_tags($query));
-    echo "<br>$query<br>";
     $result = mysqli_query($connection, $query);
-    echo $result ? 'запись добавлена' : 'ошибка обращение к БД '.mysqli_error($connection);
+    $result = query($connection, "SELECT * FROM `products` ORDER BY id DESC LIMIT 1");
+    $id = $result[0]['id'];
+    $result ? header("Location: ../index.php?page=product&id=$id"): 'ошибка обращение к БД ' . mysqli_error($connection);
 }
 
 function updateProduct($connection, $product)
@@ -67,17 +67,18 @@ function updateProduct($connection, $product)
     else $query = "UPDATE `products` SET `title` = '$title', `category` = '$category', `short_desc` = '$short_desc', `full_desc` = '$full_desc', `price` = '$price', `complect` = '$complect'  WHERE `id` = '$id';";
     $query = (string) htmlspecialchars(strip_tags($query));
     $result = mysqli_query($connection, $query);
-    echo $result ? 'запись обновлена' : 'ошибка обращение к БД '.mysqli_error($connection);    
+    $result ? header("Location: ../index.php?page=product&id=$id") : 'ошибка обращение к БД ' . mysqli_error($connection);
 }
 
 function removeProduct($connection, $id)
 {
+    $product = query($connection, "SELECT * FROM `products` WHERE `id` = '$id';");
     $query = "DELETE FROM `products` WHERE `id` = '$id';";
-    $small = PATH_ROOT . $_GET['small'];
-    $big = PATH_ROOT . $_GET['big'];
+    $small = PATH_ROOT . $product[0]['path_small'];
+    $big = PATH_ROOT . $product[0]['path_big'];
     if (file_exists($small)) unlink($small);
     if (file_exists($big)) unlink($big);
     $query = (string) htmlspecialchars(strip_tags($query));
     $result = mysqli_query($connection, $query);
-    echo $result ? 'запись удалина' : 'ошибка обращение к БД';
+    header('Location: ../index.php?page=catalog');
 }

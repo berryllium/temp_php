@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if (!$_SESSION['admin']) {
+  haeder('Location: ../');
+  exit;
+}
 require_once('functions.php');
 
 if (isset($_POST['action'])) {
@@ -26,15 +30,17 @@ if (isset($_POST['action'])) {
           imageresize(PATH_ROOT . $path_small . $photo_name, PATH_ROOT . $path_big . $photo_name, 400, 250, 75);
           $big = $path_big . $photo_name;
           $small = $path_small . $photo_name;
-          $product ['path_big'] = $big;
-          $product ['path_small'] = $small;
+          $product['path_big'] = $big;
+          $product['path_small'] = $small;
           if ($action == 'update') {
             updateProduct($connection, $product);
           } else addProduct($connection, $product);
         }
       } else echo 'Можно загрузить только изображения в формате .jpg, .png или .gif';
     } else updateProduct($connection, $product);
-  } elseif (isset($_GET['delete'])) {
-
-  } else echo 'Ошибка удаления';
+  }
+}
+if ($_GET['action'] == 'delete') {
+  $id = $_GET['id'];
+  removeProduct($connection, $id);
 }
