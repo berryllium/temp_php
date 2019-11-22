@@ -8,9 +8,11 @@ elseif ($_GET['page'] == 'catalog') {
   $query = "SELECT * FROM `products`";
   $products = query($connection, $query);
   require_once('templates/catalog.php');
+} elseif ($_GET['page'] == 'admin') {
+  require_once('templates/admin.php');
 } elseif ($_GET['page'] == 'product') {
   $query = "SELECT * FROM `products` WHERE `id` = '" . $_GET['id'] . "'";
-  extract (query($connection, $query)[0]);
+  extract(query($connection, $query)[0]);
   require_once('templates/product.php');
 } else
   require_once('templates/home.php');
