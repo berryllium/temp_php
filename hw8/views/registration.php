@@ -10,10 +10,10 @@ if ($_POST['submit']) {
     if ($row['login']) echo 'Данное имя пользователя уже исользуется';
     else {
         $pass = md5($pass . $sault);
-        $query = "INSERT INTO `users` (`login`, `pass`, `role`, `name`) VALUES ('$login', '$pass', 'client', '$name')";
+        $query = "INSERT INTO `users` (`login`, `pass`, `role`, `name`, `cart`) VALUES ('$login', '$pass', 'client', '$name', '{}')";
         $result = mysqli_query($connection, $query);
         session_start();
-        $_SESSION['user'] = $name;
+        $_SESSION['login'] = $login;
         echo '<script>document.location.href = "index.php?page=welcome";</script>';
     }
 }

@@ -7,8 +7,9 @@ if ($_POST['submit']) {
     $query = "SELECT * FROM `users` WHERE login = '$user'";
     $result = mysqli_query($connection, $query);
     $row = mysqli_fetch_assoc($result);
-    if ((md5($pass . $sault) == $row['pass']) && ($row['role'] == 'admin')) {
-        $_SESSION['admin'] = $row['login'];
+    if ((md5($pass . $sault) == $row['pass'])) {
+        if($row['login'] = 'admin') $_SESSION['admin'] =true;
+        $_SESSION['login'] = $row['login'];
         echo '<script>document.location.href = "index.php?page=welcome";</script>';
         exit;
     } else {
