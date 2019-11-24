@@ -17,6 +17,8 @@ elseif ($_GET['page'] == 'catalog') {
   require_once('views/cart.php');
 } elseif ($_GET['page'] == 'login') {
   require_once('views/login.php');
+} elseif ($_GET['page'] == 'registration') {
+  require_once('views/registration.php');
 } elseif ($_GET['page'] == 'product') {
   $query = "SELECT * FROM `products` WHERE `id` = '" . $_GET['id'] . "'";
   extract(query($connection, $query)[0]);
