@@ -10,7 +10,7 @@
         </div>
     <?php endforeach; ?>
 
-    <?php if ($_SESSION['admin']) : ?>
+    <?php if ($_SESSION['login'] == 'admin') : ?>
         <a href="index.php?page=admin" class="button">Админка</a>
     <?php endif; ?>
 </div>

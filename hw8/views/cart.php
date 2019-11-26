@@ -1,20 +1,27 @@
 <?php
 $cart_poducts = [];
-$query = "SELECT * FROM `cart`";
-$arr = query($connection, $query);
-foreach ($arr as $key => $value) {
-  $id = $value['id_product'];
+require_once('model/cart.php');
+$cart = getUserCart($connection, $login);
+foreach ($cart as $key => $value) {
+  $id = $key;
   $query = "SELECT * FROM `products` WHERE `id` = '$id'";
-  $cart_poducts[] = query($connection, $query)[0];
+
+  $product = query($connection, $query)[0];
+  $product['count'] = $value;
+  $cart_poducts[] = $product;
 }
 foreach ($cart_poducts as $product) :
   ?>
   <div class="cart-item">
     <img src="<?= $product['path_small'] ?>" alt="photo">
     <div class="name"><?= $product['title'] ?></div>
+    <div class="count"><?= $product['count'] ?></div>
     <a href="#" class="button" onclick="rem(event)" data-id="<?= $product['id'] ?>">Удалить</a>
   </div>
 <?php endforeach; ?>
+<br>
+
+<a href="#" data-login="<?= $_SESSION['login'] ?>" onclick="order(event)" class="button" id="order">Оформить</a>
 
 <script>
   function rem(event) {
@@ -23,7 +30,17 @@ foreach ($cart_poducts as $product) :
         id: id
       })
       .done(function(data) {
-        alert("Ответ сервера: " + data);
+        window.location = "index.php?page=cart";
+      });
+  }
+  function order(event) {
+    login = event.target.dataset.login
+    $.post("model/cart.php", {
+        login: login
+      })
+      .done(function(data) {
+       alert(data);
+       window.location = "index.php?page=catalog";
       });
   }
 </script>

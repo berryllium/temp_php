@@ -8,7 +8,6 @@ if ($_POST['submit']) {
     $result = mysqli_query($connection, $query);
     $row = mysqli_fetch_assoc($result);
     if ((md5($pass . $sault) == $row['pass'])) {
-        if($row['login'] = 'admin') $_SESSION['admin'] =true;
         $_SESSION['login'] = $row['login'];
         echo '<script>document.location.href = "index.php?page=welcome";</script>';
         exit;
@@ -17,10 +16,9 @@ if ($_POST['submit']) {
     }
 }
 if ($_GET['exit']) {
-    unset($_SESSION['admin']);
-    session_destroy();
+    if($_SESSION['login']) session_destroy();
 }
-if ($_SESSION['admin']) {
+if ($_SESSION['login']) {
     echo '<script>document.location.href = "index.php?page=welcome";</script>';
     exit;
 }

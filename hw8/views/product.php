@@ -13,7 +13,7 @@
     <p class="complect"><?= $complect ?></p>
 </div>
 
-<?php if ($_SESSION['admin']) : ?>
+<?php if ($_SESSION['login'] == 'admin') : ?>
 
 
     <h2> Редактирование товара </h2>
@@ -40,7 +40,7 @@
         }
     </style>
 <?php endif;
-echo $_SESSION['admin']; ?>
+echo $_SESSION['login']; ?>
 
 <script>
     function buy(event) {
@@ -49,7 +49,7 @@ echo $_SESSION['admin']; ?>
                 quantity: 1
             })
             .done(data => {
-                alert(data)
+                alert('Товар добавлен в корзину')
             })
     }
 </script>

@@ -3,11 +3,20 @@ session_start();
 require_once('functions.php');
 $login = $_SESSION['login'];
 
-if(isset($_POST)) {
+if(isset($_POST['id'])) {
   $id = $_POST['id'];
   if (isset($_POST['quantity'])) {
     addToCart($connection, $id, $login);
   } else removeFromCart($connection, $id, $login);
+}
+
+if(isset($_POST['login'])) {
+  $login = $_POST['login'];
+  $cart = json_encode(getUserCart($connection, $login));
+  $query = "INSERT INTO `orders` (`login`, `cart`) VALUES ('$login', '$cart')";
+  mysqli_query($connection, $query);
+  cleanUserCart($connection, $login);
+  echo "заказ $login оформлен";
 }
 
 function removeFromCart($connection, $id, $login) {
@@ -17,7 +26,6 @@ function removeFromCart($connection, $id, $login) {
   $cart = json_encode($cart);
   $query = "UPDATE `users` SET `cart` = '$cart' WHERE `login` = '$login'";  
   mysqli_query($connection, $query);
-  echo $cart;
 }
 
 function addToCart($connection, $id, $login) {
@@ -28,7 +36,6 @@ function addToCart($connection, $id, $login) {
   $cart = json_encode($cart);
   $query = "UPDATE `users` SET `cart` = '$cart' WHERE `login` = '$login'";
   mysqli_query($connection, $query);
-  echo $cart;
 }
 
 function getUserCart($connection, $login) {
@@ -37,4 +44,9 @@ function getUserCart($connection, $login) {
   $row = mysqli_fetch_assoc($result);
   $data = $row['cart'];
   return json_decode($data);
+}
+
+function cleanUserCart($connection, $login) {
+  $query = "UPDATE `users` SET `cart` = '{}' WHERE `login` = '$login'";
+  mysqli_query($connection, $query);
 }

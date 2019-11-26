@@ -15,7 +15,7 @@
                 <li><a href="?page=catalog">Каталог</a></li>
                 <li><a href="?page=contacts">Контакты</a></li>
                 <li><a href="?page=cart">Корзина</a></li>
-                <?php if ($_SESSION['admin']) : ?>
+                <?php if ($_SESSION['login'] == 'admin') : ?>
                     <li><a href="index.php?exit=true">Выход</a></li>
                 <?php else : ?>
                     <li><a href="index.php?page=login">Вход</a></li>

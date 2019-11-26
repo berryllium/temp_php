@@ -1,10 +1,11 @@
 <?php
 session_start();
 if ($_GET['exit']) session_destroy();
+
 require_once('views/header.php');
 require_once('model/functions.php');
-if ($_GET['page'] == 'contacts') require_once('views/contacts.php');
-
+if (!$_SESSION['login']) require_once('views/login.php');
+elseif ($_GET['page'] == 'contacts') require_once('views/contacts.php');
 elseif ($_GET['page'] == 'catalog') {
   $query = "SELECT * FROM `products`";
   $products = query($connection, $query);
