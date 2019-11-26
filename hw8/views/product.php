@@ -17,7 +17,7 @@
 
 
     <h2> Редактирование товара </h2>
-    <a href="model/crud.php?action=delete&id=<?= $id ?>" class="button">Удалить Товар</a>
+    <a href="model/crud.php?action=delete&id=<?= $id ?>" class="button">Удалить</a>
     <form action="model/crud.php" method="post" enctype="multipart/form-data" required value="<?= $id ?>">
         <label>Наименование</label><br><input type="text" name="title" required value="<?= $title ?>">
         <label>Категория</label><br><input type="text" name="category" required value="<?= $category ?>">

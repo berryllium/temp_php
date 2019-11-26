@@ -345,29 +345,29 @@ body {
 
 /* форма контактных данных */
 
-.container-contacts .content .form {
+.content .form {
     margin: 0 25px;
     width : 550px;
     float : left;
 }
 
-.container-contacts .content .form table {
+.content .form table {
     font-size     : 18px;
     border-spacing: 25px;
     margin        : 0 auto;
     font-weight   : 700;
 }
 
-.container-contacts .content .form textarea {
+.content .form textarea {
     height: 100px
 }
 
-.container-contacts .content .action_form {
+.content .action_form {
     display        : flex;
     justify-content: space-around;
 }
 
-.container-contacts .content .instr label {
+.content .instr label {
     display: inline-block;
     width  : 110px;
 }
@@ -375,24 +375,24 @@ body {
 
 /* текст внутри тегов input с возможностью ввода */
 
-.container-contacts .content .form input[placeholder],
-.container-contacts .content .form textarea[placeholder] {
+.content .form input[placeholder],
+.content .form textarea[placeholder] {
     width      : 100%;
     font-size  : 18px;
     font-family: sans-serif;
     font-style : italic;
 }
 
-.container-contacts .content .form textarea[placeholder] {
+.content .form textarea[placeholder] {
     text-transform: none;
 }
 
-.container-contacts .content .form input[type="email"]:focus {
+.content .form input[type="email"]:focus {
     color           : orangered;
     background-color: bisque;
 }
 
-.container-contacts .content .form [type="text"] {
+.content .form [type="text"] {
     text-transform: capitalize;
     width         : 100%;
     font-size     : 14px;
@@ -400,7 +400,7 @@ body {
     font-style    : italic;
 }
 
-.container-contacts .content .form input [type="chekbox"] {
+.content .form input [type="chekbox"] {
     display: inline-block;
     width  : 50px;
 }
@@ -408,7 +408,7 @@ body {
 
 /*кнопки формы обратной связи*/
 
-.container-contacts .content .button {
+.content .button {
     outline         : none;
     padding         : inherit;
     position        : inherit;
@@ -417,7 +417,7 @@ body {
     color           : coral;
 }
 
-.container-contacts .content .button:hover {
+.content .button:hover {
     outline         : none;
     position        : inherit;
     cursor          : pointer;
@@ -428,21 +428,39 @@ body {
 
 /*адрес и карта*/
 
-.container-contacts .content .address {
+.content .address {
     width: 550px;
     float: left;
 }
 
-.container-contacts .content .address .address-table table {
+.content .address .address-table table {
     border-spacing: 10px;
     font-weight   : bold;
 }
 
-.container-contacts .content .address .map {
+.content .address .map {
     width : 100%;
     height: 374px;
 }
 
-.container-contacts .content .address:after {
+.content .address:after {
     clear: both;
+}
+
+/*СТРАНИЦА КОРЗИНЫ*/
+.cart-wrap {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/*АДМИНКА*/
+#orders-table {
+    width: 80%;
+    margin: 0 auto;
+    font-size: 18px;
+    border-collapse: collapse;
+}
+#orders-table td, #orders-table th {
+    padding: 10px;
 }

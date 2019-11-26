@@ -57,7 +57,7 @@ function addProduct($connection, $product)
     $result = mysqli_query($connection, $query);
     $result = query($connection, "SELECT * FROM `products` ORDER BY id DESC LIMIT 1");
     $id = $result[0]['id'];
-    $result ? header("Location: ../index.php?page=product&id=$id"): 'ошибка обращение к БД ' . mysqli_error($connection);
+    $result ? header("Location: ../index.php?page=product&id=$id") : 'ошибка обращение к БД ' . mysqli_error($connection);
 }
 
 function updateProduct($connection, $product)
@@ -81,4 +81,66 @@ function removeProduct($connection, $id)
     $query = (string) htmlspecialchars(strip_tags($query));
     $result = mysqli_query($connection, $query);
     header('Location: ../index.php?page=catalog');
+}
+
+
+function removeFromCart($connection, $id, $login)
+{
+    $cart = getUserCart($connection, $login);
+    if ($cart->$id > 1) $cart->$id--;
+    else unset($cart->$id);
+    $cart = json_encode($cart);
+    $query = "UPDATE `users` SET `cart` = '$cart' WHERE `login` = '$login'";
+    mysqli_query($connection, $query);
+}
+
+function addToCart($connection, $id, $login)
+{
+    echo $_SESSION['login'];
+    $cart = getUserCart($connection, $login);
+    if (isset($cart->$id)) $cart->$id++;
+    else $cart->$id = 1;
+    $cart = json_encode($cart);
+    $query = "UPDATE `users` SET `cart` = '$cart' WHERE `login` = '$login'";
+    mysqli_query($connection, $query);
+}
+
+function getUserCart($connection, $login)
+{
+    $query = "SELECT `cart` FROM `users` WHERE `login` = '$login'";
+    $result = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($result);
+    $data = $row['cart'];
+    return json_decode($data);
+}
+
+function cleanUserCart($connection, $login)
+{
+    $query = "UPDATE `users` SET `cart` = '{}' WHERE `login` = '$login'";
+    mysqli_query($connection, $query);
+}
+
+function getAllOrders($connection)
+{
+    $query = "SELECT * FROM `orders`";
+    $orders = query($connection, $query);
+    $data = [];
+    foreach ($orders as $key => $value) {
+        $id = $value['id'];
+        $login = $value['login'];
+        $cart = json_decode($value['cart']);
+        $cart_products = '';
+        foreach ($cart as $id_prod => $count) {
+            $query = "SELECT `title` FROM `products` WHERE `id` = '$id_prod'";
+            $product = query($connection, $query)[0]['title'];
+            $cart_products .= "$product - $count шт. ";
+        }
+        $order = [
+            'id' => $id,
+            'login' => $login,
+            'cart' => $cart_products
+        ];
+        $data[] = $order;
+    }
+    return $data;
 }

@@ -12,6 +12,8 @@ elseif ($_GET['page'] == 'catalog') {
   require_once('views/catalog.php');
 } elseif ($_GET['page'] == 'admin') {
   require_once('views/admin.php');
+} elseif ($_GET['page'] == 'orders') {
+  require_once('views/orders.php');
 } elseif ($_GET['page'] == 'welcome') {
   require_once('views/welcome.php');
 } elseif ($_GET['page'] == 'cart') {
