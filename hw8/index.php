@@ -1,6 +1,9 @@
 <?php
 session_start();
-if ($_GET['exit']) session_destroy();
+if ($_GET['exit']) {
+  session_destroy();
+  header('Location: index.php?login.php');
+}
 
 require_once('views/header.php');
 require_once('model/functions.php');
